@@ -3,7 +3,7 @@ const http = require('http');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { port, hostname } = require('./config/server');
-const router = require('./route/route');
+const router = require('./router/route');
 const app = express();
 
 app.use(bodyParser.json({ limit: '50mb' }));

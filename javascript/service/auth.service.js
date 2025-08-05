@@ -1,22 +1,14 @@
-const tokenize = require('../utils/tokenize');
+const token = require('../utils/token');
 
-function getCredential(req,res,next) {
-    const headers = req.headers;
-    if (headers?.authorization) {
-        const texts = headers.authorization.split(" ");
-        if (texts[0] == 'Bearer') next();
-        else return res.status(401).json({
-            success: false,
-            msg: 'Authorization header invalid'
-        });
-    } else {
-        return res.status(401).json({
-            success: false,
-            msg: 'No authorization header'
-        });
+function parseCredential(id, uname) {
+    const date = new Date();
+    const payload = {
+        sub: id,
+        name: uname,
+        iat: date.getTime(),
+        exp: date.setHours(12).valueOf()
     }
+    return token.encode(payload);
 }
 
-module.exports = { 
-    getCredential
-}
+module.exports = { parseCredential };

@@ -1,14 +1,11 @@
 const { parseCredential } = require('../service/auth.service');
-const store = require('../dummy/credential.store');
 const userStore = require('../dummy/user.store');
 
 async function login(req,res) {
-    const username = req.body?.username
-    const password = req.body?.password
+    const username = req.body?.username;
+    const password = req.body?.password;
     
     if (username && password) {
-        const user = { username, password }
-        // const data = parseCredential(username, username);
         const data = userStore.getUser(username);
         let token = '';
         if (data[0]) {
@@ -18,6 +15,7 @@ async function login(req,res) {
             success: true,
             msg: "Data user diterima",
             data: {
+                username: username,
                 accessToken: token
             }
         })
@@ -30,15 +28,19 @@ async function login(req,res) {
 }
 
 async function register(req,res) {
-    const username = req.body?.username
-    const password = req.body?.password
+    const username = req.body?.username;
+    const email = req.body?.email;
+    const password = req.body?.password;
 
-    if (username && password) {
-        const user = { username, password }
-        userStore.addUser(username, password);
+    if (username && email && password) {
+        userStore.addUser(username, email, password);
         res.json({
             success: true,
-            msg: "User berhasil register"
+            msg: "User berhasil register",
+            data: {
+                username: username,
+                email: email
+            }
         })
     } else {
         res.status(400).json({

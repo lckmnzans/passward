@@ -3,11 +3,11 @@
  * Cleared if changes happen
  */
 const users = [];
-const user = (username, password) => { return { username, password } };
+const user = (username, email, password) => { return { username, email, password } };
 
 module.exports = {
-    addUser(username, password) {
-        users.push(user(username, password));
+    addUser(username, email, password) {
+        users.push(user(username, email, password));
     },
     getUser(username) {
         if (username) {

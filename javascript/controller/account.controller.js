@@ -1,31 +1,24 @@
-const { parseCredential } = require('../service/auth.service');
-const userStore = require('../dummy/user.store');
-const { isEmailValid } = require('../utils/isValid');
+const { checkAndValidate, checkAndCreate } = require('../service/auth.service');
+const validator = require('../utils/validator');
 
 async function login(req,res) {
     const username = req.body?.username;
     const password = req.body?.password;
     
     if (username && password) {
-        const data = userStore.getUser(username);
-        let token = null;
-        if (data[0]) {
-            token = parseCredential(data[0].username, data[0].username);
-        } else {
+        const validating = checkAndValidate(username, password);
+        if (validating.data) {
             res.json({
-                success: false,
-                msg: "User tidak ditemukan"
+                success: true,
+                msg: validating.msg,
+                data: validating.data
             });
-            return;
+        } else {
+            res.status(401).json({
+                success: false,
+                msg: validating.msg
+            })
         }
-        res.json({
-            success: true,
-            msg: "Data user diterima",
-            data: {
-                username: username,
-                accessToken: token
-            }
-        });
         return;
     } else {
         res.status(400).json({
@@ -42,23 +35,19 @@ async function register(req,res) {
     const password = req.body?.password;
 
     if (username && email && password) {
-        if (!isEmailValid(email)) {
+        if (!validator.isEmailValid(email)) {
             res.json({
                 success: false,
                 msg: "Email tidak valid"
             });
-            return;
+        } else {
+            const creating = checkAndCreate(username, email, password);
+            res.json({
+                success: true,
+                msg: creating.msg,
+                data: creating.data
+            });
         }
-
-        userStore.addUser(username, email, password);
-        res.json({
-            success: true,
-            msg: "User berhasil register",
-            data: {
-                username: username,
-                email: email
-            }
-        });
         return;
     } else {
         res.status(400).json({

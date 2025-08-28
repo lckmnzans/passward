@@ -7,7 +7,7 @@ const user = (username, email, password) => { return { username, email, password
 
 module.exports = {
     addUser(username, email, password) {
-        users.push(user(username, email, password));
+        return users.push(user(username, email, password)) - 1;
     },
     getUser(username) {
         if (username) {

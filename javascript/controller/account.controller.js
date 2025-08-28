@@ -1,4 +1,4 @@
-const { checkAndValidate, checkAndCreate } = require('../service/auth.service');
+const accountService = require('../service/account.service');
 const validator = require('../utils/validator');
 
 async function login(req,res) {
@@ -6,7 +6,7 @@ async function login(req,res) {
     const password = req.body?.password;
     
     if (username && password) {
-        const validating = checkAndValidate(username, password);
+        const validating = accountService.checkAndValidate(username, password);
         if (validating.data) {
             res.json({
                 success: true,
@@ -19,14 +19,13 @@ async function login(req,res) {
                 msg: validating.msg
             })
         }
-        return;
     } else {
         res.status(400).json({
             success: false,
             msg: "Data user kosong atau belum sesuai"
         });
-        return;
     }
+    return;
 }
 
 async function register(req,res) {
@@ -41,21 +40,20 @@ async function register(req,res) {
                 msg: "Email tidak valid"
             });
         } else {
-            const creating = checkAndCreate(username, email, password);
+            const creating = accountService.checkAndCreate(username, email, password);
             res.json({
                 success: true,
                 msg: creating.msg,
                 data: creating.data
             });
         }
-        return;
     } else {
         res.status(400).json({
             success: false,
             msg: "Data user kosong atau belum sesuai"
         });
-        return;
     }
+    return;
 }
 
 module.exports = {

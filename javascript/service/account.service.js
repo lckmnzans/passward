@@ -1,5 +1,5 @@
 const token = require('../utils/token');
-const userStore = require('../dummy/user.store');
+const store = require('../dummy/user.store');
 
 function parseCredential(id, uname) {
     const date = new Date();
@@ -13,7 +13,7 @@ function parseCredential(id, uname) {
 }
 
 function checkAndValidate(username, password) {
-    const data = userStore.getUser(username);
+    const data = store.getUser(username);
     if (data[0]) {
         if (data[0].password == password) {
             return {
@@ -37,14 +37,14 @@ function checkAndValidate(username, password) {
 }
 
 function checkAndCreate(username, email, password) {
-    const data = userStore.getUser(username);
+    const data = store.getUser(username);
     if (data[0]) {
         return {
             msg: "Username already exists",
             data: null
         };
     } else {
-        const id = userStore.addUser(username, email, password);
+        const id = store.addUser(username, email, password);
         return {
             msg: "User created",
             data: {

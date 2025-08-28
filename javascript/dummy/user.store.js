@@ -9,7 +9,7 @@ module.exports = {
     addUser(username, email, password) {
         return users.push(user(username, email, password)) - 1;
     },
-    getUser(username) {
+    getUser(username=null) {
         if (username) {
             return users.filter(user => user.username == username);
         } else {

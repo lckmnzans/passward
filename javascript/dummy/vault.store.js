@@ -6,10 +6,10 @@ const credentials = [];
 const credential = (sitename, password) => { return { sitename, password } };
 
 module.exports = {
-    addCredential(sitename, password) {
+    save(sitename, password) {
         credentials.push(credential(sitename, password));
     },
-    getCredential(sitename) {
+    retrieve(sitename) {
         if (sitename) {
             return credentials.filter(credential => credential.sitename == sitename);
         } else {

@@ -6,7 +6,8 @@ function getCredential(req,res,next) {
         const texts = headers.authorization.split(" ");
         if (texts[0] == 'Bearer') {
             const payload = token.decode(texts[1]);
-            console.log(payload);
+            req.user = payload;
+            next();
         } else { 
             return res.status(401).json({
                 success: false,
@@ -21,4 +22,4 @@ function getCredential(req,res,next) {
     }
 }
 
-module.export = { getCredential }
+module.exports = { getCredential }

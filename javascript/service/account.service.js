@@ -43,7 +43,9 @@ function checkAndCreate(username, email, password) {
         return {
             msg: "User created",
             data: {
-                id: id
+                id,
+                username,
+                email
             }
         }
     }

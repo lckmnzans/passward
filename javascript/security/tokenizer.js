@@ -1,20 +1,37 @@
+/**
+ * Payload object
+ * @typedef {Object} Payload
+ * @property {(number|string)} sub
+ * @property {string} name
+ * @property {number} iat
+ * @property {number} exp
+*/
+
+/**
+ * @param {(string|number)} id
+ * @param {string} username
+ * @returns {Payload}
+*/
 function builder(id, username) {
-    const date = new Date();
+    const currentTime = Date.now();
     return {
-        id,
+        sub: `${id}`,
         name: `${username}`,
-        iat: date.getTime(),
-        exp: date.setHours(12).valueOf()
-    }
+        iat: currentTime,
+        exp: currentTime + 12 * 60 * 60
+    };
 }
 
+/**
+ * @param {Payload} payload 
+*/
 function validate(payload) {
-    const credential = payload;
+    const {sub,name,iat,exp} = payload;
     return {
         get isNotExpired() {
-            Date.now() <= payload.exp
+            return Date.now() <= exp
         }
     };
 }
 
-module.exporst = { builder, validate };
+module.exports = { builder, validate };

@@ -1,15 +1,10 @@
-const token = require('../utils/token');
+const strategy = require('../security/strategy');
+const tokenizer = require('../security/tokenizer');
 const store = require('../dummy/user.store');
 
 function parseCredential(id, uname) {
-    const date = new Date();
-    const payload = {
-        sub: id,
-        name: uname,
-        iat: date.getTime(),
-        exp: date.setHours(12).valueOf()
-    }
-    return token.encode(payload);
+    const payload = tokenizer.builder(id, uname);
+    return strategy.encoding(payload);
 }
 
 function checkAndValidate(username, password) {

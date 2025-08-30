@@ -1,11 +1,11 @@
-const token = require('../utils/token');
+const strategy = require('../security/strategy');
 
-function getCredential(req,res,next) {
+function auth(req,res,next) {
     const headers = req.headers;
     if (headers?.authorization) {
         const texts = headers.authorization.split(" ");
         if (texts[0] == 'Bearer') {
-            const payload = token.decode(texts[1]);
+            const payload = strategy.decoding(texts[1]);
             req.user = payload;
             next();
         } else { 
@@ -22,4 +22,4 @@ function getCredential(req,res,next) {
     }
 }
 
-module.exports = { getCredential }
+module.exports = { auth }

@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const controller = require('../controller/vault.controller');
-const { getCredential } = require('../middleware/auth.middleware');
+const { auth } = require('../middleware/auth.middleware');
 
-router.post('/', getCredential, controller.setPassword);
-router.get('/', getCredential, controller.getPassword);
+router.post('/', auth, controller.setPassword);
+router.get('/', auth, controller.getPassword);
 
 module.exports = router;

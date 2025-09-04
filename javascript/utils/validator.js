@@ -9,11 +9,24 @@ function isExist(...args) {
         if (args[i] == '') return false;
         i++;
     }
-    return true
+    return true;
+}
+
+function isExists(arg) {
+    if (arg == null) {
+        return false;
+    }
+    if (typeof arg == 'string') {
+        return arg.trim().length > 0;
+    }
+    if (typeof arg == 'number') {
+        return true;
+    }
+    return true;
 }
 
 function isEmailValid(emailString) {
     return STRONG_EMAIL.test(emailString.trim());
 }
 
-module.exports = { isExist, isEmailValid };
+module.exports = { isExist, isExists, isEmailValid };
